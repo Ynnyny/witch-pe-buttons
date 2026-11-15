@@ -1,0 +1,32 @@
+name: Build PE Buttons
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: Witch-Launcher/Witch_launcher
+          ref: beta
+          path: launcher
+          sparse-checkout: |
+            Natives/PluginKit
+            Natives/glfw_keycodes.h
+            scripts/plugins
+      - run: pip3 install -r launcher/scripts/plugins/requirements.txt --break-system-packages
+      - name: Signing key
+        env:
+          PLUGIN_PRIVATE_KEY_PEM: ${{ secrets.PLUGIN_PRIVATE_KEY_PEM }}
+        run: |
+          mkdir -p keys
+          if [ -n "$PLUGIN_PRIVATE_KEY_PEM" ]; then printf '%s\n' "$PLUGIN_PRIVATE_KEY_PEM" > keys/private.pem
+          else python3 launcher/scripts/plugins/pack_plugin.py --generate-key keys/private.pem --key-id ci-key; fi
+      - run: WITCH_LAUNCHER_DIR="$PWD/launcher" PLUGIN_KEY_ID=ci-key ./tools/build_and_pack.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pe-buttons-plgw
+          path: pe-buttons-1.0.0.plgw

@@ -1,0 +1,117 @@
+{
+  "id": "com.witch.community.pe-buttons",
+  "name": "PE Buttons",
+  "version": "1.1.0",
+  "author": "Community",
+  "description": "Nút điều khiển kiểu Minecraft PE dùng texture của TouchController: sprite cho nút hành động, nền nút PE + tên cho nút chỉ có chữ.",
+  "details": "PE Buttons thay giao diện nút, ngăn kéo (drawer) và joystick của bộ điều khiển trong game bằng texture nút kiểu Minecraft PE của mod TouchController (LGPL-3.0-or-later): sprite sẵn cho D-pad, nhảy, ngồi, chạy, túi đồ, chat, tạm dừng..., và nền nút trống 9-patch để hiện tên cho các nút còn lại. Có hai bộ texture: classic (PE cũ) và new (Bedrock hiện tại). Có thể thay bất kỳ texture nào bằng PNG của bạn trong thư mục PEButtons.",
+  "license": "LGPL-3.0-or-later",
+  "source": "https://github.com/YOUR-NAME/witch-pe-buttons",
+  "api": 1,
+  "entrypoints": {
+    "native": "PEButtons.dylib"
+  },
+  "permissions": [],
+  "settings": [
+    {
+      "key": "style",
+      "type": "picker",
+      "label": "Bộ texture",
+      "description": "classic = PE cũ (đá xám), new = Bedrock hiện tại. Cần khởi động lại launcher.",
+      "default": "classic",
+      "options": [
+        {
+          "key": "classic",
+          "name": "Classic (PE)"
+        },
+        {
+          "key": "new",
+          "name": "New (Bedrock)"
+        }
+      ]
+    },
+    {
+      "key": "show_icons",
+      "type": "switch",
+      "label": "Dùng sprite cho nút hành động",
+      "description": "Tắt để mọi nút hiện tên chữ trên nền PE. Cần khởi động lại launcher.",
+      "default": true
+    },
+    {
+      "key": "style_text_buttons",
+      "type": "switch",
+      "label": "Nền PE cho nút chỉ có chữ",
+      "description": "Vẽ nền nút PE dưới tên nút. Cần khởi động lại launcher.",
+      "default": true
+    },
+    {
+      "key": "text_background",
+      "type": "picker",
+      "label": "Nền nút chữ",
+      "description": "Chọn mẫu nền trống của TouchController. Tự động: 1 cho classic, 2 cho new.",
+      "default": "0",
+      "options": [
+        {
+          "key": "0",
+          "name": "Tự động"
+        },
+        {
+          "key": "1",
+          "name": "Mẫu 1 (đá xám)"
+        },
+        {
+          "key": "2",
+          "name": "Mẫu 2 (bo tròn)"
+        },
+        {
+          "key": "3",
+          "name": "Mẫu 3 (xám bo)"
+        },
+        {
+          "key": "4",
+          "name": "Mẫu 4 (xám phẳng)"
+        },
+        {
+          "key": "5",
+          "name": "Mẫu 5 (khung)"
+        }
+      ]
+    },
+    {
+      "key": "pixel_size",
+      "type": "picker",
+      "label": "Cỡ pixel của nút",
+      "description": "Số điểm (pt) cho mỗi pixel texture. Tự động sẽ co theo kích thước nút.",
+      "default": "0",
+      "options": [
+        {
+          "key": "0",
+          "name": "Tự động"
+        },
+        {
+          "key": "1",
+          "name": "1 pt (mịn)"
+        },
+        {
+          "key": "2",
+          "name": "2 pt"
+        },
+        {
+          "key": "3",
+          "name": "3 pt"
+        },
+        {
+          "key": "4",
+          "name": "4 pt (to)"
+        }
+      ]
+    },
+    {
+      "key": "custom_textures",
+      "type": "switch",
+      "label": "Dùng texture của bạn nếu có",
+      "description": "Đọc PNG trong thư mục PEButtons (cạnh plugins.json) thay cho texture đi kèm.",
+      "default": true
+    }
+  ]
+}
