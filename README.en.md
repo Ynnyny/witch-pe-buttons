@@ -95,6 +95,10 @@ The script reads the version from `plugin/witch-plugin.json` to name the package
 (`pe-buttons-<version>.plgw`), packs it, verifies it again and prints the **SHA-256** of the
 package so you can put it into `witch-plugins.json`.
 
+> **The hash changes with every build.** The ECDSA signature is randomized, so each packed
+> `.plgw` differs byte for byte. Publish the exact file you attach to the release and use
+> the SHA-256 of that very file in `witch-plugins.json`.
+
 > **The signing key must stay the same.** The launcher pins the publisher key of an installed
 > plugin and refuses a build that was signed with a different key. CI must therefore **not**
 > generate a fresh key on every run — put the key into the `PLUGIN_PRIVATE_KEY_PEM` secret.

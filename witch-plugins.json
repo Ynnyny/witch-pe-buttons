@@ -10,7 +10,7 @@
       "license": "LGPL-3.0-or-later",
       "source": "https://github.com/Ynnyny/witch-pe-buttons",
       "package": "https://github.com/Ynnyny/witch-pe-buttons/releases/download/v1.1.0/pe-buttons-1.1.0.plgw",
-      "sha256": "fa46acb423ea0b34f08d7fae8c7b01c093d7f498be5f9ec50cb95f1786b31258",
+      "sha256": "ea63cb493cb72d873915a9dcc3f143dbab6f8955e3da3492a34c16f489b35242",
       "channel": "stable",
       "notes": "First published release. Native plugin: the launcher asks whether it may run native code inside the launcher process."
     }

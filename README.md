@@ -89,6 +89,10 @@ Script sẽ tự lấy version trong `plugin/witch-plugin.json` để đặt tê
 (`pe-buttons-<version>.plgw`), đóng gói, verify lại và in ra **SHA-256** của gói để bạn
 điền vào `witch-plugins.json`.
 
+> **Mã băm đổi mỗi lần build.** Chữ ký ECDSA có khoá ngẫu nhiên nên gói `.plgw` mỗi lần
+> đóng gói đều khác byte. Hãy publish đúng tệp bạn đính kèm vào Release và dùng SHA-256
+> của chính tệp đó trong `witch-plugins.json`.
+
 > **Khóa ký phải giữ nguyên.** Launcher ghim khóa của nhà phát hành khi cài; một bản build
 > ký bằng khóa khác sẽ bị launcher từ chối. Vì vậy CI **không được** tự sinh khóa mới mỗi lần
 > build — hãy đặt khóa vào secret `PLUGIN_PRIVATE_KEY_PEM`.
