@@ -6,7 +6,7 @@
   "description": "Nút điều khiển kiểu Minecraft PE dùng texture của TouchController: sprite cho nút hành động, nền nút PE + tên cho nút chỉ có chữ.",
   "details": "PE Buttons thay giao diện nút, ngăn kéo (drawer) và joystick của bộ điều khiển trong game bằng texture nút kiểu Minecraft PE của mod TouchController (LGPL-3.0-or-later): sprite sẵn cho D-pad, nhảy, ngồi, chạy, túi đồ, chat, tạm dừng..., và nền nút trống 9-patch để hiện tên cho các nút còn lại. Có hai bộ texture: classic (PE cũ) và new (Bedrock hiện tại). Có thể thay bất kỳ texture nào bằng PNG của bạn trong thư mục PEButtons.",
   "license": "LGPL-3.0-or-later",
-  "source": "https://github.com/YOUR-NAME/witch-pe-buttons",
+  "source": "https://github.com/Ynnyny/witch-pe-buttons",
   "api": 1,
   "entrypoints": {
     "native": "PEButtons.dylib"

@@ -8,7 +8,47 @@ dùng chính texture nút của mod **TouchController** (LGPL-3.0-or-later):
 - **Joystick** → `pad` + `stick` của TouchController.
 - Hai bộ texture: **classic** (PE cũ, đá xám) và **new** (Bedrock hiện tại, bo tròn).
 
-Plugin native (`.dylib`, ABI 2) móc vào `ControlButton` / `ControlJoystick` của launcher nhánh `beta`.
+Plugin native (`.dylib`, ABI 2) móc vào `ControlButton` / `ControlJoystick` của launcher.
+
+> Bản tiếng Anh: [README.en.md](README.en.md)
+
+## ⚠️ Plugin native: cần tắt sandbox
+
+Launcher phân tích mọi plugin trước khi chạy. Một plugin có **mã native** luôn bị xếp mức
+**Nguy hiểm** (huy hiệu đỏ) vì code của nó chạy ngay trong tiến trình launcher và không
+cách ly được.
+
+Khi cài, launcher sẽ hỏi bạn chọn:
+
+| Lựa chọn | Kết quả |
+| --- | --- |
+| **Cài đặt trong sandbox** | Mã native bị chặn → **plugin không làm gì cả**. Dùng cho bản dùng thử. |
+| **Cài đặt và cho chạy mã native** | Plugin chạy bình thường. Chọn lựa chọn này nếu bạn tin nguồn của mình. |
+
+Sau khi cài, plugin vẫn có thể bật/tắt sandbox ở màn hình chi tiết plugin (**Sandbox**).
+Bật lại sandbox sẽ chặn mã native và plugin sẽ ngừng hoạt động.
+
+## Cài đặt
+
+### Từ danh mục plugin (khuyến nghị)
+
+Repository này cũng là **catalog** của launcher. Mở **Settings → Plugins → Available Plugins**
+rồi bấm **Install** trên dòng PE Buttons. Launcher tải gói từ Release, kiểm tra mã băm
+(SHA-256) đã ghim trong `witch-plugins.json`, xác minh chữ ký và checksum, rồi mới hỏi bạn
+về sandbox.
+
+### Từ file `.plgw`
+
+Tải `pe-buttons-1.1.0.plgw` từ [Releases](https://github.com/Ynnyny/witch-pe-buttons/releases)
+→ chép vào máy → **Settings → Plugins → `+`** → chọn gói.
+
+> Gói phải được **Witch registry xác minh** thì launcher mới cho cài. Nếu bản dựng của bạn
+> chưa được registry duyệt, launcher sẽ báo "chưa xác minh" và từ chối cài.
+
+### Yêu cầu
+
+- Launcher bản có hỗ trợ plugin native (cần bản cài cho phép nạp dylib tự ký).
+- Khởi động lại launcher sau khi cài.
 
 ## Nút nào ra sprite, nút nào ra chữ
 
@@ -17,7 +57,7 @@ Nút dài (như Keyboard, Chat, Debug trong layout mặc định) hiện nền t
 
 | Phím / hành động | Sprite |
 | --- | --- |
-| W / A / S / D, D-pad, cuộn lên/xuống | `up` `left` `down` `right` |
+| W / A / S / D, D-pad, cuộn lên/xuốn | `up` `left` `down` `right` |
 | Space / Left Shift / Left Ctrl | `jump` / `sneak` / `sprint` |
 | E / T / Esc, Menu | `inventory` / `chat` / `pause` |
 | F1 / F2 / F3 / F5 | `hide_hud` / `screenshot` / `debug_screen` / `perspective` |
@@ -41,17 +81,22 @@ Nền 9-patch co giãn theo `nine.json` (`l/t/r/b` = số texel viền); mặc �
 
 ```sh
 git clone -b beta https://github.com/Witch-Launcher/Witch_launcher.git
-python3 Witch_launcher/scripts/plugins/pack_plugin.py --generate-key ./keys/private.pem --key-id my-key
-WITCH_LAUNCHER_DIR=$PWD/Witch_launcher PLUGIN_KEY_ID=my-key ./tools/build_and_pack.sh
+python3 Witch_launcher/scripts/plugins/pack_plugin.py --generate-key ./keys/private.pem --key-id pe-buttons
+WITCH_LAUNCHER_DIR=$PWD/Witch_launcher ./tools/build_and_pack.sh
 ```
+
+Script sẽ tự lấy version trong `plugin/witch-plugin.json` để đặt tên gói
+(`pe-buttons-<version>.plgw`), đóng gói, verify lại và in ra **SHA-256** của gói để bạn
+điền vào `witch-plugins.json`.
+
+> **Khóa ký phải giữ nguyên.** Launcher ghim khóa của nhà phát hành khi cài; một bản build
+> ký bằng khóa khác sẽ bị launcher từ chối. Vì vậy CI **không được** tự sinh khóa mới mỗi lần
+> build — hãy đặt khóa vào secret `PLUGIN_PRIVATE_KEY_PEM`.
 
 Không có Mac: đẩy thư mục này lên GitHub, chạy workflow `Build PE Buttons`
 (`.github/workflows/build.yml`), tải `.plgw` ở Artifacts.
 
 Trước khi build, **sửa `source` trong `plugin/witch-plugin.json`** thành URL repo thật của bạn.
-Cài: chép `.plgw` vào máy → Settings → Plugins → `+`. Theo docs, build phải được registry xác minh mới
-cài được, hoặc để trống `Witch base URL` để bỏ qua bước này (mình chưa kiểm chứng). Plugin native còn
-cần bản cài cho phép nạp dylib tự ký.
 
 ## Cập nhật texture từ TouchController
 
@@ -69,8 +114,8 @@ Mã `PEButtons.m`: MIT. Texture: LGPL-3.0-or-later của TouchController (xem `p
 
 ## Giới hạn hiện tại
 
-- Chưa build/chạy thử trên thiết bị thật (không có Xcode/iOS SDK ở môi trường mình). Mã đã qua kiểm
-  tra cú pháp bằng libclang với header giả, và gói đã qua packer của launcher.
 - Sprite là hình vuông cố định nên chỉ dùng cho nút gần vuông; nút dài dùng nền trống + tên.
 - Chữ trên nút dùng font hệ thống đậm + bóng đổ cứng (không phải font pixel của Minecraft) để giữ tên tiếng Việt có dấu.
 - Chỉ đổi nút điều khiển trong game, chưa đụng nút ở màn hình chính của launcher.
+- Hook được cài bằng `class_replaceMethod` và **không** gỡ khi plugin bị gỡ; cần khởi động
+  lại launcher sau khi gỡ.

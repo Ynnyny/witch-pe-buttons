@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+._*
+
+# Signing keys — never commit a private key
+keys/
+
+# Build output
+*.plgw
+plugin/*.dylib

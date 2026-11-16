@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "plugins": [
+    {
+      "id": "com.witch.community.pe-buttons",
+      "name": "PE Buttons",
+      "version": "1.1.0",
+      "description": "Touch controller buttons in Minecraft: PE style, using the TouchController textures (LGPL-3.0-or-later).",
+      "author": "Community",
+      "license": "LGPL-3.0-or-later",
+      "source": "https://github.com/Ynnyny/witch-pe-buttons",
+      "package": "https://github.com/Ynnyny/witch-pe-buttons/releases/download/v1.1.0/pe-buttons-1.1.0.plgw",
+      "sha256": "fa46acb423ea0b34f08d7fae8c7b01c093d7f498be5f9ec50cb95f1786b31258",
+      "channel": "stable",
+      "notes": "First published release. Native plugin: the launcher asks whether it may run native code inside the launcher process."
+    }
+  ]
+}
