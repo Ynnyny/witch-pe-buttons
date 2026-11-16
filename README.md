@@ -102,6 +102,44 @@ Không có Mac: đẩy thư mục này lên GitHub, chạy workflow `Build PE Bu
 
 Trước khi build, **sửa `source` trong `plugin/witch-plugin.json`** thành URL repo thật của bạn.
 
+## Phát hành bản mới
+
+1. Build (xem trên) → nhận `artifact_sha256` và `checksums_sha256` trong log.
+2. **Nộp lên Witch registry** — launcher chỉ cài build đã được registry xác minh:
+
+```sh
+curl -X POST https://witch-worker.vvvuduyanh2012.workers.dev/v1/plugins/submit \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "pluginId": "com.witch.community.pe-buttons",
+    "version": "1.1.0",
+    "name": "PE Buttons",
+    "summary": "Nút điều khiển kiểu Minecraft PE.",
+    "author": "Community",
+    "license": "LGPL-3.0-or-later",
+    "sourceUrl": "https://github.com/Ynnyny/witch-pe-buttons",
+    "artifactSha256": "<artifact_sha256>",
+    "checksumsSha256": "<checksums_sha256>",
+    "publicKey": "<public_key>",
+    "publisherKeyId": "pe-buttons",
+    "permissions": []
+  }'
+```
+
+3. **Admin duyệt** (`X-Admin-Key` là khoá admin của registry):
+
+```sh
+curl -H 'X-Admin-Key: ...' -X POST \
+  'https://witch-worker.vvvuduyanh2012.workers.dev/admin/plugins/com.witch.community.pe-buttons/verify' \
+  -d '{"version":"1.1.0","notes":"Source and license reviewed"}'
+```
+
+4. **Đăng Release** với file `.plgw` đã build, rồi cập nhật `sha256` trong
+   `witch-plugins.json` bằng SHA-256 của **đúng file đó** và commit.
+
+> Registry chỉ duyệt build đúng hash đó. Nếu bạn build lại, hash đổi (chữ ký ECDSA có
+> khoá ngẫu nhiên) nên phải nộp và duyệt lại bản mới.
+
 ## Cập nhật texture từ TouchController
 
 ```sh

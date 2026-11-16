@@ -108,6 +108,44 @@ No Mac? Push this folder to GitHub, run the `Build PE Buttons` workflow
 
 Before building, **set `source` in `plugin/witch-plugin.json`** to your real repository URL.
 
+## Publishing a new version
+
+1. Build (see above) and take the `artifact_sha256` and `checksums_sha256` from the log.
+2. **Submit it to the Witch registry** — the launcher only installs a build the registry verified:
+
+```sh
+curl -X POST https://witch-worker.vvvuduyanh2012.workers.dev/v1/plugins/submit \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "pluginId": "com.witch.community.pe-buttons",
+    "version": "1.1.0",
+    "name": "PE Buttons",
+    "summary": "Minecraft PE style touch controller buttons.",
+    "author": "Community",
+    "license": "LGPL-3.0-or-later",
+    "sourceUrl": "https://github.com/Ynnyny/witch-pe-buttons",
+    "artifactSha256": "<artifact_sha256>",
+    "checksumsSha256": "<checksums_sha256>",
+    "publicKey": "<public_key>",
+    "publisherKeyId": "pe-buttons",
+    "permissions": []
+  }'
+```
+
+3. **Let an admin approve it** (`X-Admin-Key` is the registry admin key):
+
+```sh
+curl -H 'X-Admin-Key: ...' -X POST \
+  'https://witch-worker.vvvuduyanh2012.workers.dev/admin/plugins/com.witch.community.pe-buttons/verify' \
+  -d '{"version":"1.1.0","notes":"Source and license reviewed"}'
+```
+
+4. **Publish a Release** with the package you built, then put the SHA-256 of **that exact
+   file** into `witch-plugins.json` and commit it.
+
+> The registry approves one hash. A rebuild changes the hash (the ECDSA signature is
+> randomized), so a new build has to be submitted and approved again.
+
 ## Updating the textures from TouchController
 
 ```sh
