@@ -44,8 +44,11 @@ signature and every checksum, and only then asks about the sandbox.
 Download `pe-buttons-1.1.0.plgw` from [Releases](https://github.com/Ynnyny/witch-pe-buttons/releases)
 → copy it to the device → **Settings → Plugins → `+`** → pick the package.
 
-> The package must be **verified by the Witch registry** before the launcher installs it. A
-> build the registry has not approved is rejected.
+> The registry is **not required**: the launcher compares the SHA-256 of the download with
+> the SHA-256 the catalog publishes, so a build installed from the catalog always carries a
+> trusted publisher. Installing the `.plgw` file directly works too, the launcher just says
+> that the publisher is not verified. Submitting to the registry is what makes the publisher
+> trusted everywhere, including when someone installs from a file.
 
 ### Requirements
 
@@ -111,7 +114,7 @@ Before building, **set `source` in `plugin/witch-plugin.json`** to your real rep
 ## Publishing a new version
 
 1. Build (see above) and take the `artifact_sha256` and `checksums_sha256` from the log.
-2. **Submit it to the Witch registry** — the launcher only installs a build the registry verified:
+2. **Submit it to the Witch registry** (optional but recommended — it makes the publisher trusted by the registry):
 
 ```sh
 curl -X POST https://witch-worker.vvvuduyanh2012.workers.dev/v1/plugins/submit \

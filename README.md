@@ -42,8 +42,10 @@ về sandbox.
 Tải `pe-buttons-1.1.0.plgw` từ [Releases](https://github.com/Ynnyny/witch-pe-buttons/releases)
 → chép vào máy → **Settings → Plugins → `+`** → chọn gói.
 
-> Gói phải được **Witch registry xác minh** thì launcher mới cho cài. Nếu bản dựng của bạn
-> chưa được registry duyệt, launcher sẽ báo "chưa xác minh" và từ chối cài.
+> Registry **không bắt buộc**: launcher so SHA-256 của gói tải về với SHA-256 mà danh mục
+> công bố, nên bản cài từ danh mục luôn có nhà phát hành đáng tin. Cài từ tệp `.plgw` cũng
+> được, launcher sẽ ghi rõ nhà phát hành chưa được xác minh. Nộp lên registry là để nhà
+> phát hành được tin cậy ở mọi nơi, kể cả khi người dùng cài từ tệp.
 
 ### Yêu cầu
 
@@ -105,7 +107,7 @@ Trước khi build, **sửa `source` trong `plugin/witch-plugin.json`** thành U
 ## Phát hành bản mới
 
 1. Build (xem trên) → nhận `artifact_sha256` và `checksums_sha256` trong log.
-2. **Nộp lên Witch registry** — launcher chỉ cài build đã được registry xác minh:
+2. **Nộp lên Witch registry** (không bắt buộc, nhưng nên làm) — để nhà phát hành được registry tin cậy:
 
 ```sh
 curl -X POST https://witch-worker.vvvuduyanh2012.workers.dev/v1/plugins/submit \
